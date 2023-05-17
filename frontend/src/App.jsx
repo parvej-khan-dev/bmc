@@ -1,35 +1,60 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
+import "./App.css";
+
+import { Button ,Modal,Form} from "semantic-ui-react";
+import SeatBooking from "./Component/SeatBooking";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [open, setOpen] = useState(false)
+
+
+  const openModel = () => {
+    setOpen(prev => !prev)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+         <div style={{ position: "relative", backgroundColor: "red" }}>
+      <Button
+        style={{ position: "absolute", top: 0, right: 0 , zIndex: 1}}
+        color="green"
+        onClick={openModel}
+      >
+        Book ticket
+      </Button>
+    </div>
+
+      <SeatBooking />
+      <Modal
+      centered={false}
+      open={open}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+    
+    >
+      <Modal.Header>Book Your Ticket</Modal.Header>
+      <Modal.Content>
+      <Form>
+    <Form.Field>
+      <label>Your Name</label>
+      <input placeholder='Enter Your Name' />
+    </Form.Field>
+    <Form.Field>
+      <label>Enter the number seat that your want to book</label>
+      <input placeholder='Ex. 1,5,6,3' />
+    </Form.Field>
+
+  </Form>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button onClick={() => setOpen(false)}>Submit</Button>
+      </Modal.Actions>
+    </Modal>
+  
     </>
-  )
+  );
 }
 
-export default App
+export default App;

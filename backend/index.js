@@ -22,6 +22,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+const BookingRoutes = require("./routes/booking");
+
+app.use("/api", BookingRoutes);
 
 // Connection
 const PORT = process.env.PORT || 5000;
