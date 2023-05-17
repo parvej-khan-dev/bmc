@@ -18,6 +18,7 @@ exports.fillCoachWithSeats = async (req, res) => {
       const numSeats = row === numRows ? 3 : 7;
 
       for (let i = 1; i <= numSeats; i++) {
+       
         seats.push({
           row: row,
           seatNumber: seatNumber,
@@ -91,16 +92,16 @@ exports.ticketBooking = async (req, res) => {
     res.status(200).json({
       message: "Tickets booked successfully",
       coach: coach.coachNumber,
-      seats: seatsToBook,
+      seats: coach,
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-exports.AdmingetAllSeatsbyID = async (req, res) => {
+exports.AdmingetAllSeats = async (req, res) => {
   try {
-    let coach = await Booking.find({ _id: req.params.coachID });
+    let coach = await Booking.findOne({ coachNumber: "COO1" });
 
     if (!coach) {
       throw new Error("No coach Found");
@@ -114,7 +115,7 @@ exports.AdmingetAllSeatsbyID = async (req, res) => {
 
 exports.userBookingTicket = async (req, res) => {
   try {
-    const { username } = req.body;
+    const { username } = req.query;
 
     const userBookedTickets = await Booking.find();
 
