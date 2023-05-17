@@ -32,9 +32,9 @@ exports.fillCoachWithSeats = async (req, res) => {
       seats: seats,
     });
 
-    // await newCoach.save();
+    await newCoach.save();
     console.log(newCoach.seats.length);
-    // res.json(newCoach);
+    res.json(newCoach);
 
     console.log(`Coach ${req.body.coachNumber} filled with seats successfully`);
   } catch (error) {
@@ -88,10 +88,49 @@ exports.ticketBooking = async (req, res) => {
 
     await coach.save();
 
-    res
-      .status(200)
-      .json({ message: "Tickets booked successfully", seats: seatsToBook });
+    res.status(200).json({
+      message: "Tickets booked successfully",
+      coach: coach.coachNumber,
+      seats: seatsToBook,
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+exports.AdmingetAllSeatsbyID = async (req, res) => {
+  try {
+    let coach = await Booking.find({ _id: req.params.coachID });
+
+    if (!coach) {
+      throw new Error("No coach Found");
+    }
+
+    res.status(200).json(coach);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.userBookingTicket = async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    const userBookedTickets = await Booking.find();
+
+    const bookedTickets = userBookedTickets.map((booking) => {
+      const filteredSeats = booking.seats.filter(
+        (seat) => seat.user === username && seat.isBooked
+      );
+      return {
+        coachNumber: booking.coachNumber,
+        date: booking.date,
+        seats: filteredSeats.length > 0 ? filteredSeats : "NA",
+      };
+    });
+
+    res.status(200).json(bookedTickets);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
