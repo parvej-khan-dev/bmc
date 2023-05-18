@@ -34,7 +34,9 @@ Here's an example to illustrate how the seat reservation system works:
 
 1. Input: 4
 2. Output: SeatBooked: Row-1 , Seat - 1,2,3,4
-Coach layout:
+
+
+### Coach layout:
 ```less
 Row 1: [01] [02] [03] [04] [05] [06] [07]
 Row 2: [08] [09] [10] [11] [12] [13] [14]
