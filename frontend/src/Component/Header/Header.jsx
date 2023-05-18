@@ -16,35 +16,24 @@ const Header = () => {
   };
 
   const bookticket = async (event, data) => {
-    event.preventDefault();
     try {
-      const ticketBookingApi = await bookTicket(data);
-      console.log(ticketBookingApi);
-      window.alert(`${name} Your ${seats} Ticket Booked`);
-      setSeats("");
-      setName("");
-      window.location.reload();
+      event.preventDefault();
+      if (username.trim() === "" || seats.trim() === "") {
+        // Display an error message or perform appropriate action
+        alert("Please fill in all required fields.");
+      } else {
+        const ticketBookingApi = await bookTicket(data);
+        console.log(ticketBookingApi);
+        window.alert(`${username} Your ${seats} Ticket Booked`);
+        setSeats("");
+        setName("");
+        window.location.reload();
+      }
     } catch (error) {
       console.log(error, "error");
       // throw new Error(error);
-      alert(error.response.data.error);
+      // alert(error.response.data.error);
       // window.alert(error.response.data.error);
-    }
-  };
-
-  const handleSubmit = () => {
-    if (username.trim() === "" || seats.trim() === "") {
-      // Display an error message or perform appropriate action
-      alert("Please fill in all required fields.");
-    } else {
-      let data = {
-        user: username,
-        numberOfSeats: Number(seats),
-      };
-      // Form is valid, proceed with submission
-      // alert("Form submitted successfully!");
-      bookticket(data);
-      setOpen(false);
     }
   };
 
@@ -132,17 +121,28 @@ const Header = () => {
             <Form.Field>
               <label>Enter the number seat that your want to book</label>
               <input
-                placeholder="Ex. 1,5,6,3"
+                placeholder="Ex. 1,5,6,3, max 7"
                 value={seats}
-                min="1"
-                max="7"
+                type="number"
                 onChange={(e) => setSeats(e.target.value)}
               />
             </Form.Field>
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => handleSubmit()}>Submit</Button>
+          <Button
+            onClick={(e) => {
+              let data = {
+                user: username,
+                numberOfSeats: Number(seats),
+              };
+
+              bookticket(e, data);
+              setOpen(false);
+            }}
+          >
+            Submit
+          </Button>
         </Modal.Actions>
       </Modal>
     </>

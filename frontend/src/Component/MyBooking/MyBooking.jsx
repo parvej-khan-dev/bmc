@@ -29,11 +29,12 @@ const MyBooking = () => {
   }
 
   useEffect(() => {
-    getBookingData("Hari");
+    let usernamae = localStorage.getItem("username");
+    getBookingData(usernamae);
   }, []);
 
   return (
-    <div style={{ height: "400px", overflowY: "auto"}}>
+    <div style={{ height: "400px", overflowY: "auto" }}>
       {/* <Header /> */}
       <Table striped>
         <Table.Header>
@@ -48,8 +49,8 @@ const MyBooking = () => {
           {bookingData.map((element) => (
             <Table.Row key={element._id}>
               <Table.Cell>{element.user}</Table.Cell>
-              <Table.Cell>{element.seatNumber}3</Table.Cell>
               <Table.Cell>{element.row}</Table.Cell>
+              <Table.Cell>{element.seatNumber}</Table.Cell>
               <Table.Cell>
                 {" "}
                 {moment(element.date).format("MMMM Do YYYY, h:mm:ss a")}

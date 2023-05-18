@@ -47,9 +47,7 @@ exports.fillCoachWithSeats = async (req, res) => {
 exports.ticketBooking = async (req, res) => {
   try {
     const { user, numberOfSeats } = req.body;
-if(!user && !numberOfSeats){
-  return res.status(400).json({error: 'Please Fill required data'})
-}
+
     if (numberOfSeats > 7) {
       throw new Error("Maximum 7 seats can be booked at a time");
     }
