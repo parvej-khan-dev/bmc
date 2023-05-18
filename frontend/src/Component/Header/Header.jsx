@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Input, Menu, Button, Modal, Form } from "semantic-ui-react";
+import { useState, useEffect } from "react";
+import { Input, Menu, Button, Modal, Form, Label } from "semantic-ui-react";
 import { bookTicket } from "../../api";
 // import SeatBooking from "../Booking/SeatBooking";
 import { NavLink } from "react-router-dom";
@@ -10,7 +10,7 @@ const Header = () => {
   const [seats, setSeats] = useState("");
   const handleItemClick = (e, { name }) => setActiveItem(name);
   const [open, setOpen] = useState(false);
-
+  const [username, setUsername] = useState("");
   const openModel = () => {
     setOpen((prev) => !prev);
   };
@@ -32,6 +32,35 @@ const Header = () => {
     }
   };
 
+  const handleSubmit = () => {
+    if (username.trim() === "" || seats.trim() === "") {
+      // Display an error message or perform appropriate action
+      alert("Please fill in all required fields.");
+    } else {
+      let data = {
+        user: username,
+        numberOfSeats: Number(seats),
+      };
+      // Form is valid, proceed with submission
+      // alert("Form submitted successfully!");
+      bookticket(data);
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    } else {
+      const userInput = window.prompt("Please enter your username:");
+      if (userInput) {
+        setUsername(userInput);
+        localStorage.setItem("username", userInput);
+      }
+    }
+  }, []);
+
   return (
     <>
       <Menu secondary>
@@ -40,6 +69,7 @@ const Header = () => {
             name="home"
             active={activeItem === "home"}
             onClick={handleItemClick}
+            style={{ fontSize: "18px" }}
           />
         </NavLink>
         <NavLink
@@ -52,6 +82,7 @@ const Header = () => {
             name="My Booking"
             active={activeItem === "My Booking"}
             onClick={handleItemClick}
+            style={{ fontSize: "18px" }}
           />
         </NavLink>
         {/* <Link to={`booking`}> */}
@@ -62,10 +93,17 @@ const Header = () => {
           name="friends"
           active={activeItem === "friends"}
           onClick={handleItemClick}
+          style={{ fontSize: "18px" }}
         />
         <Menu.Menu position="right">
           <Menu.Item>
             <Input icon="search" placeholder="Search..." />
+          </Menu.Item>
+          <Menu.Item>
+            <Label image>
+              <img src="https://react.semantic-ui.com/images/avatar/small/ade.jpg" />
+              {username}
+            </Label>
           </Menu.Item>
 
           <Button color="green" onClick={openModel}>
@@ -87,8 +125,8 @@ const Header = () => {
               <label>Your Name</label>
               <input
                 placeholder="Enter Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={username}
+                // onChange={(e) => setName(e.target.value)}
               />
             </Form.Field>
             <Form.Field>
@@ -96,24 +134,15 @@ const Header = () => {
               <input
                 placeholder="Ex. 1,5,6,3"
                 value={seats}
+                min="1"
+                max="7"
                 onChange={(e) => setSeats(e.target.value)}
               />
             </Form.Field>
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button
-            onClick={(e) => {
-              let data = {
-                user: name,
-                numberOfSeats: Number(seats),
-              };
-              bookticket(e, data);
-              setOpen(false);
-            }}
-          >
-            Submit
-          </Button>
+          <Button onClick={() => handleSubmit()}>Submit</Button>
         </Modal.Actions>
       </Modal>
     </>

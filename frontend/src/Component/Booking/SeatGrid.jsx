@@ -1,5 +1,3 @@
-import React from "react";
-
 const SeatGrid = ({ seats }) => {
   console.log("seats", seats);
   const renderSeats = () => {
@@ -23,10 +21,13 @@ const SeatGrid = ({ seats }) => {
           style={{
             backgroundColor: seatColor,
             padding: "10px",
+            width: 60,
             borderRadius: 10,
             margin: "5px",
             display: "inline-block",
-            color:"white"
+            color: "white",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           {seatNumber.toString().padStart(2, "0")}
@@ -37,7 +38,7 @@ const SeatGrid = ({ seats }) => {
     return renderedSeats;
   };
 
-  return <div>{renderSeats()}</div>;
+  return <div >{renderSeats()}</div>;
 };
 
 export default SeatGrid;

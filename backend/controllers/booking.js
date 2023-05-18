@@ -18,7 +18,6 @@ exports.fillCoachWithSeats = async (req, res) => {
       const numSeats = row === numRows ? 3 : 7;
 
       for (let i = 1; i <= numSeats; i++) {
-       
         seats.push({
           row: row,
           seatNumber: seatNumber,
@@ -48,7 +47,9 @@ exports.fillCoachWithSeats = async (req, res) => {
 exports.ticketBooking = async (req, res) => {
   try {
     const { user, numberOfSeats } = req.body;
-
+if(!user && !numberOfSeats){
+  return res.status(400).json({error: 'Please Fill required data'})
+}
     if (numberOfSeats > 7) {
       throw new Error("Maximum 7 seats can be booked at a time");
     }
@@ -115,7 +116,7 @@ exports.AdmingetAllSeats = async (req, res) => {
 
 exports.userBookingTicket = async (req, res) => {
   try {
-    const { username } = req.query;
+    const username = req.params.username;
 
     const userBookedTickets = await Booking.find();
 
@@ -129,6 +130,9 @@ exports.userBookingTicket = async (req, res) => {
         seats: filteredSeats.length > 0 ? filteredSeats : "NA",
       };
     });
+    if (!bookedTickets) {
+      res.status(400).json({ error: "Data not found" });
+    }
 
     res.status(200).json(bookedTickets);
   } catch (error) {
