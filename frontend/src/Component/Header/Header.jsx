@@ -79,8 +79,8 @@ const Header = () => {
         {/* </Link> */}
 
         <Menu.Item
-          name="friends"
-          active={activeItem === "friends"}
+          name="others"
+          active={activeItem === "others"}
           onClick={handleItemClick}
           style={{ fontSize: "18px" }}
         />

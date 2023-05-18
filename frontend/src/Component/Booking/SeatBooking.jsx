@@ -26,12 +26,17 @@ const SeatBooking = () => {
 
   return (
     <div
-      style={{ display: "flex", justifyContent: 'space-around', width: "100%" }}
+      style={{ display: "flex", justifyContent: "space-around", width: "100%" }}
     >
       {/* <Header /> */}
-      <SeatGrid seats={bookingData} />
+
+      <div>
+        <h2 style={{ textAlign: "left" ,marginTop:20}}>Seat Availability</h2>
+        <SeatGrid seats={bookingData} />
+      </div>
+
       <div style={{ margin: 10, padding: 10 }}>
-        <h2 style={{textAlign:'left'}}>My Booking</h2>
+        <h2 style={{ textAlign: "left" }}>My Booking</h2>
         <MyBooking />
       </div>
     </div>
