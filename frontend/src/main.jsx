@@ -5,7 +5,6 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "semantic-ui-css/semantic.min.css";
-import SeatBooking from "./Component/Booking/SeatBooking.jsx";
 import MyBooking from "./Component/MyBooking/MyBooking.jsx";
 import Header from "./Component/Header/Header.jsx";
 

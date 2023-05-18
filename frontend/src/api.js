@@ -1,5 +1,6 @@
 import axios from "axios";
-const BACKEND = "http://localhost:5000/api";
+// const BACKEND = "http://localhost:5000/api";
+const BACKEND = "https://bmc-backend-wdac.onrender.com/api";
 
 export const getMyBooking = (username) =>
   axios.get(`${BACKEND}/user/ticket/${username}`);

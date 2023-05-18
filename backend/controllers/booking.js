@@ -93,7 +93,7 @@ if(!user && !numberOfSeats){
     res.status(200).json({
       message: "Tickets booked successfully",
       coach: coach.coachNumber,
-      seats: coach,
+      seats: seatsToBook,
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
